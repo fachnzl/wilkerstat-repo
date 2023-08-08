@@ -1,3 +1,8 @@
+div.block-container
+{
+    padding-top:2rem;
+    
+}
 [data-testid=stHorizontalBlock] [data-testid=column]
 {
     background-color: #333333;
