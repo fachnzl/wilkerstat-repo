@@ -45,6 +45,6 @@ with open("css/style.css") as source_des:
     pml = st.multiselect('Which beverage do you like?', ['Tea', 'Coffee','Iced Tea' ,'Diet Coke', 'Lemonade'],['Tea', 'Coffee'])
     st.markdown(pml)
     coltab = st.columns(1)
-    coltab.table(repo_subsls.merge(wilkerstat_subsls, how="left", on='idsubsls'))
+    coltab[0].table(repo_subsls.merge(wilkerstat_subsls, how="left", on='idsubsls'))
 # except:
 #     st.markdown("Data Belum di update")
