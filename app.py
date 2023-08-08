@@ -37,14 +37,51 @@ with open("css/style.css") as source_des:
     repo_subsls = pd.DataFrame(repo.iloc[:, [0, 7, 22, 25]])
     repo_subsls['idsubsls'] = repo_subsls['idsubsls'].astype(str)
     wilkerstat_subsls['idsubsls'] = wilkerstat_subsls['idsubsls'].astype(str)
-    wilkerstat_subsls['jumlah_tagging'] = wilkerstat_subsls['jumlah_tagging'].astype(
-        int)
-    wilkerstat_subsls['jumlah_art_tani'] = wilkerstat_subsls['jumlah_art_tani'].astype(
-        int)
+    # wilkerstat_subsls['jumlah_tagging'] = wilkerstat_subsls['jumlah_tagging'].astype(int)
+    # wilkerstat_subsls['jumlah_art_tani'] = wilkerstat_subsls['jumlah_art_tani'].astype(int)
     col1 = st.container()
-    pml = col1.multiselect('Filter by PML', ['Muhammad Bohari Rahman S.Stat.', 'Nadya Husna S.Tr.Stat.','Muhammad Ikhwani' ,'Muhammad Fachry Nazuli S.Tr.Stat.', 'Ema Juniati SST','Hera Lestari S.Si','Iryani','Chalida Rahmi SE, M.M.','Yusra S.E','Salviyana Nurdin A.Md','Suci Maulida SST'],['Muhammad Bohari Rahman S.Stat.', 'Nadya Husna S.Tr.Stat.','Muhammad Ikhwani' ,'Muhammad Fachry Nazuli S.Tr.Stat.', 'Ema Juniati SST','Hera Lestari S.Si','Iryani','Chalida Rahmi SE, M.M.','Yusra S.E','Salviyana Nurdin A.Md','Suci Maulida SST'])
-    st.markdown(pml)
+    pmls = col1.multiselect('Filter by PML', ['Muhammad Bohari Rahman S.Stat.', 'Nadya Husna S.Tr.Stat.','Muhammad Ikhwani' ,'Muhammad Fachry Nazuli S.Tr.Stat.', 'Ema Juniati SST','Hera Lestari S.Si','Iryani','Chalida Rahmi SE, M.M.','Yusra S.E','Salviyana Nurdin A.Md','Suci Maulida SST'],['Muhammad Bohari Rahman S.Stat.', 'Nadya Husna S.Tr.Stat.','Muhammad Ikhwani' ,'Muhammad Fachry Nazuli S.Tr.Stat.', 'Ema Juniati SST','Hera Lestari S.Si','Iryani','Chalida Rahmi SE, M.M.','Yusra S.E','Salviyana Nurdin A.Md','Suci Maulida SST'])
+    try:
+        filterpml = ''
+        for pml in pmls:
+            filterpml = filterpml +"'"+ pml+"', "
+        filterpml = filterpml[:-2]   
+    except: 
+        st.markdown("PML Belum dipilih")
+    data_merge = repo_subsls.merge(wilkerstat_subsls, how="left", on='idsubsls')
+    data_merge['jumlah_tagging'] = data_merge['jumlah_tagging'].fillna(0).astype(int)
+    data_merge['jumlah_art_tani'] = data_merge['jumlah_art_tani'].fillna(0).astype(int)
+    data_merge = data_merge.query("nama_pml in ("+filterpml+")")
+    # st.container().table(data_merge)
     
-    st.container().table(repo_subsls.merge(wilkerstat_subsls, how="left", on='idsubsls'))
+    display_table = """
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>ID SubSLS</th>
+                            <th>Nama SLS</th>
+                            <th>UTP Repo (R305)</th>
+                            <th>Jumlah Tagging</th>
+                            <th>Jumlah ART Tani Wilkerstat</th>
+                            <th>Nama PML</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    """
+
+    table_row = ""
+    for idx in data_merge.index:
+        if data_merge['b305'][idx] == data_merge['jumlah_art_tani'][idx]:
+            status = "Repo sama dengan Wilkerstat"
+            color_status = "green"
+        else: 
+            status = "Repo berbeda dengan Wilkerstat"
+            color_status = "red"
+        table_row = table_row + f"<tr><td>{idx}</td><td>{data_merge['idsubsls'][idx]}</td><td>{data_merge['nmsls'][idx]}</td><td>{data_merge['b305'][idx]}</td><td>{data_merge['jumlah_tagging'][idx]}</td><td>{data_merge['jumlah_art_tani'][idx]}</td><td>{data_merge['nama_pml'][idx]}</td><td><span style='color:{color_status};'>{status}</span></td></tr>"
+    # st.markdown(table_row)    
+    display_tables = f"{display_table}{table_row}</tbody></table>"
+    st.markdown(display_tables, unsafe_allow_html=True)
 # except:
 #     st.markdown("Data Belum di update")
