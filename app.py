@@ -41,10 +41,10 @@ with open("css/style.css") as source_des:
         int)
     wilkerstat_subsls['jumlah_art_tani'] = wilkerstat_subsls['jumlah_art_tani'].astype(
         int)
-    col1 = st.container(1)
+    col1 = st.container()
     pml = col1.multiselect('Filter by PML', ['Muhammad Bohari Rahman S.Stat.', 'Nadya Husna S.Tr.Stat.','Muhammad Ikhwani' ,'Muhammad Fachry Nazuli S.Tr.Stat.', 'Ema Juniati SST','Hera Lestari S.Si','Iryani','Chalida Rahmi SE, M.M.','Yusra S.E','Salviyana Nurdin A.Md','Suci Maulida SST'],['Muhammad Bohari Rahman S.Stat.', 'Nadya Husna S.Tr.Stat.','Muhammad Ikhwani' ,'Muhammad Fachry Nazuli S.Tr.Stat.', 'Ema Juniati SST','Hera Lestari S.Si','Iryani','Chalida Rahmi SE, M.M.','Yusra S.E','Salviyana Nurdin A.Md','Suci Maulida SST'])
     st.markdown(pml)
     
-    st.container.table(repo_subsls.merge(wilkerstat_subsls, how="left", on='idsubsls'))
+    st.container().table(repo_subsls.merge(wilkerstat_subsls, how="left", on='idsubsls'))
 # except:
 #     st.markdown("Data Belum di update")
