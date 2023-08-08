@@ -41,6 +41,9 @@ with open("css/style.css") as source_des:
         int)
     wilkerstat_subsls['jumlah_art_tani'] = wilkerstat_subsls['jumlah_art_tani'].astype(
         int)
+
+    pml = st.multiselect('Which beverage do you like?', ['Tea', 'Coffee','Iced Tea' ,'Diet Coke', 'Lemonade'],['Tea', 'Coffee'])
+    st.markdown(pml)
     st.table(repo_subsls.merge(wilkerstat_subsls, how="left", on='idsubsls'))
 # except:
 #     st.markdown("Data Belum di update")
