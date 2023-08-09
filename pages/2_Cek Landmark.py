@@ -24,7 +24,7 @@ with open("css/style.css") as source_des:
     data_merge = wilkerstat.merge(repo_subsls, how="left", on='idsubsls')
     data_merge['nama_pml'] = data_merge['nama_pml'].fillna("")
 
-    data_merge = data_merge.loc[:,['idsubsls','deskripsi_project','nama_krt','jumlah_art_tani','subsektor','user_creator_nama','nama_pml']]
+    data_merge = data_merge.loc[:,['idsubsls','deskripsi_project','nama', 'nama_krt','jumlah_art_tani','subsektor','user_creator_nama','nama_pml']]
     
     col1,col2 = st.columns([2,1])
     pmls = col1.multiselect('Filter by PML', ['Muhammad Bohari Rahman S.Stat.', 'Nadya Husna S.Tr.Stat.','Muhammad Ikhwani' ,'Muhammad Fachry Nazuli S.Tr.Stat.', 'Ema Juniati SST','Hera Lestari S.Si','Iryani','Chalida Rahmi SE, M.M.','Yusra S.E','Salviyana Nurdin A.Md','Suci Maulida SST'],['Muhammad Bohari Rahman S.Stat.', 'Nadya Husna S.Tr.Stat.','Muhammad Ikhwani' ,'Muhammad Fachry Nazuli S.Tr.Stat.', 'Ema Juniati SST','Hera Lestari S.Si','Iryani','Chalida Rahmi SE, M.M.','Yusra S.E','Salviyana Nurdin A.Md','Suci Maulida SST'])
