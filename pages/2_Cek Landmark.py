@@ -71,6 +71,21 @@ with open("css/style.css") as source_des:
             # st.markdown(filteridsubsls)
     except: 
         st.markdown("PML Belum dipilih")
-    st.table(data_merge)
+    daftar_sls = data_merge['idsubsls'].drop_duplicates()
+    if  len(daftar_sls) > 0:   
+        # st.markdown(daftar_sls)
+        
+        filtersls = col2.selectbox('Pilih Sub SLS', [j for i in [['Semua SubSLS'], daftar_sls] for j in i] )
+        st.markdown(filtersls == 'Semua SubSLS')
+        if (filtersls == 'Semua SubSLS'):
+            filteridsubsls = ''
+            for idsub in daftar_sls:
+                filteridsubsls = filteridsubsls +"'"+ idsub +"', "
+            filteridsubsls = filteridsubsls[:-2]   
+            data_merge = data_merge.query(f"idsubsls in ({filteridsubsls})")
+            # data_merge = data_merge.query(f"idsubsls in ({daftar_sls})")
+        else:
+            data_merge = data_merge.query(f"idsubsls == '{filtersls}'")
+    st.table(data_merge.reset_index(drop=True))
 # except:
 #     st.markdown("Data Belum di update")
