@@ -72,14 +72,16 @@ with open("css/style.css") as source_des:
                     """
 
     table_row = ""
+    i = 0
     for idx in data_merge.index:
+        i = i+1
         if data_merge['b305'][idx] == data_merge['jumlah_art_tani'][idx]:
             status = "Repo sama dengan Wilkerstat"
             color_status = "green"
         else: 
             status = "Repo berbeda dengan Wilkerstat"
             color_status = "red"
-        table_row = table_row + f"<tr><td>{idx}</td><td>{data_merge['idsubsls'][idx]}</td><td>{data_merge['nmsls'][idx]}</td><td>{data_merge['b305'][idx]}</td><td>{data_merge['jumlah_tagging'][idx]}</td><td>{data_merge['jumlah_art_tani'][idx]}</td><td>{data_merge['nama_pml'][idx]}</td><td><span style='color:{color_status};'>{status}</span></td></tr>"
+        table_row = table_row + f"<tr><td>{i}</td><td>{data_merge['idsubsls'][idx]}</td><td>{data_merge['nmsls'][idx]}</td><td>{data_merge['b305'][idx]}</td><td>{data_merge['jumlah_tagging'][idx]}</td><td>{data_merge['jumlah_art_tani'][idx]}</td><td>{data_merge['nama_pml'][idx]}</td><td><span style='color:{color_status};'>{status}</span></td></tr>"
     # st.markdown(table_row)    
     display_tables = f"{display_table}{table_row}</tbody></table>"
     st.markdown(display_tables, unsafe_allow_html=True)
