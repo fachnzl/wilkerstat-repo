@@ -37,6 +37,7 @@ with open("css/style.css") as source_des:
     repo_subsls = pd.DataFrame(repo.iloc[:, [0, 7, 22, 25]])
     repo_subsls['idsubsls'] = repo_subsls['idsubsls'].astype(str)
     wilkerstat_subsls['idsubsls'] = wilkerstat_subsls['idsubsls'].astype(str)
+    # new_pml = pd.read_excel(repo_upload)
     # wilkerstat_subsls['jumlah_tagging'] = wilkerstat_subsls['jumlah_tagging'].astype(int)
     # wilkerstat_subsls['jumlah_art_tani'] = wilkerstat_subsls['jumlah_art_tani'].astype(int)
     col1 = st.container()
