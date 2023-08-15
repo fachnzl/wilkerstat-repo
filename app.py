@@ -37,7 +37,9 @@ with open("css/style.css") as source_des:
     repo_subsls = pd.DataFrame(repo.iloc[:, [0, 7, 22, 25]])
     repo_subsls['idsubsls'] = repo_subsls['idsubsls'].astype(str)
     wilkerstat_subsls['idsubsls'] = wilkerstat_subsls['idsubsls'].astype(str)
-    # new_pml = pd.read_excel(repo_upload)
+    new_pml = pd.read_excel("data/daftar pml.xlsx").iloc[:, [1,2]]
+    new_pml['idsubsls'] = new_pml['idsubsls'].astype(str)
+    # st.table(new_pml)
     # wilkerstat_subsls['jumlah_tagging'] = wilkerstat_subsls['jumlah_tagging'].astype(int)
     # wilkerstat_subsls['jumlah_art_tani'] = wilkerstat_subsls['jumlah_art_tani'].astype(int)
     col1 = st.container()
@@ -52,7 +54,9 @@ with open("css/style.css") as source_des:
     data_merge = repo_subsls.merge(wilkerstat_subsls, how="left", on='idsubsls')
     data_merge['jumlah_tagging'] = data_merge['jumlah_tagging'].fillna(0).astype(int)
     data_merge['jumlah_art_tani'] = data_merge['jumlah_art_tani'].fillna(0).astype(int)
-    data_merge = data_merge.query("nama_pml in ("+filterpml+")")
+    data_merge = data_merge.merge(new_pml, how="left", on='idsubsls') 
+    # st.table(data_merge)
+    data_merge = data_merge.query("nama_pml_new in ("+filterpml+")")
     # st.container().table(data_merge)
     
     display_table = """
@@ -82,7 +86,7 @@ with open("css/style.css") as source_des:
         else: 
             status = "Repo berbeda dengan Wilkerstat"
             color_status = "red"
-        table_row = table_row + f"<tr><td>{i}</td><td>{data_merge['idsubsls'][idx]}</td><td>{data_merge['nmsls'][idx]}</td><td>{data_merge['b305'][idx]}</td><td>{data_merge['jumlah_tagging'][idx]}</td><td>{data_merge['jumlah_art_tani'][idx]}</td><td>{data_merge['nama_pml'][idx]}</td><td><span style='color:{color_status};'>{status}</span></td></tr>"
+        table_row = table_row + f"<tr><td>{i}</td><td>{data_merge['idsubsls'][idx]}</td><td>{data_merge['nmsls'][idx]}</td><td>{data_merge['b305'][idx]}</td><td>{data_merge['jumlah_tagging'][idx]}</td><td>{data_merge['jumlah_art_tani'][idx]}</td><td>{data_merge['nama_pml_new'][idx]}</td><td><span style='color:{color_status};'>{status}</span></td></tr>"
     # st.markdown(table_row)    
     display_tables = f"{display_table}{table_row}</tbody></table>"
     st.markdown(display_tables, unsafe_allow_html=True)
