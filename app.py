@@ -47,6 +47,7 @@ try:
     try:
         repo_json = get_repo_data('1174')['data']
         repo = pd.DataFrame.from_dict(repo_json)
+        repo.to_csv("data/repo.csv", index=False)
         # st.table(repo.head())
     except:
         repo = pd.read_csv("data/repo.csv")
